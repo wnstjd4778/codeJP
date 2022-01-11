@@ -1,5 +1,7 @@
 package com.spring.codejp.config;
 
+import com.spring.codejp.security.CustomUserDetailsService;
+import com.spring.codejp.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +24,7 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomUserDetailsService customUserDetailsService;
     private final CustomOAuth2UserService customOAuth2UserService;
-    private final UserReposiotry userReposiotry;
+    private final UserRepository userRepository;
 
     // 인증할 때 사용할 userDetailsService의 password Encoder를 정의한다.
     @Override
