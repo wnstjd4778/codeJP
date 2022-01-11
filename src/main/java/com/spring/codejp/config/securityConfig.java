@@ -2,9 +2,13 @@ package com.spring.codejp.config;
 
 import com.spring.codejp.security.CustomUserDetailsService;
 import com.spring.codejp.security.UserPrincipal;
+import com.spring.codejp.security.jwt.JwtBasicAuthenticationFilter;
+import com.spring.codejp.security.jwt.JwtCommonAuthorizationFilter;
+import com.spring.codejp.security.jwt.JwtTokenProvider;
 import com.spring.codejp.security.oauth2.CustomOAuth2UserService;
 import com.spring.codejp.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,7 +21,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import javax.servlet.http.HttpServletResponse;
+
+@Slf4j
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
@@ -27,6 +35,7 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
     private final CustomUserDetailsService customUserDetailsService;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final UserRepository userRepository;
+    private final JwtTokenProvider jwtTokenProvider;
 
     // 인증할 때 사용할 userDetailsService의 password Encoder를 정의한다.
     @Override
@@ -56,13 +65,28 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable() // rest api이므로 csrf 보안이 필요하지 않는다.
                 .httpBasic().disable() // rest api이므로 기본설정을 사용하지않는다. 기본설정은 비인증시 로그인폼 화면으로 리다이렉트된다.
                 .formLogin().disable()
+                .addFilterBefore(new JwtBasicAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilter(new JwtCommonAuthorizationFilter(authenticationManager(), jwtTokenProvider, userRepository))
                 .authorizeRequests()
-                    .antMatchers("/").permitAll()
+                    .antMatchers().permitAll()
                     .anyRequest().authenticated()
                     .and()
                 .oauth2Login()// Oauth2 로그인 설정
                     .userInfoEndpoint() //
-                        .userService(customOAuth2UserService);
+                        .userService(customOAuth2UserService)
+                .and()
+                    // oauth2 로그인후 jwt 토큰 생성
+                    .successHandler(((request, response, authentication) -> {
+                        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+                        String accessToken = jwtTokenProvider.generateAccessToken(userPrincipal);
+                        log.info(accessToken);
+                        String refreshToken = jwtTokenProvider.generateRefreshToken(userPrincipal);
+                        response.addHeader("Authorization", "Bearer " + accessToken);
+                        response.setStatus(HttpServletResponse.SC_OK);
+                    }))
+                    .failureHandler(((request, response, exception) -> {
+                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+                    }));
     }
 
     @Bean
