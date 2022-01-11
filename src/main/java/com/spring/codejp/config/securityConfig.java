@@ -1,6 +1,8 @@
 package com.spring.codejp.config;
 
 import com.spring.codejp.security.CustomUserDetailsService;
+import com.spring.codejp.security.UserPrincipal;
+import com.spring.codejp.security.oauth2.CustomOAuth2UserService;
 import com.spring.codejp.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

@@ -15,14 +15,14 @@ import java.util.Map;
 // 인증된 로그인 유저 정보
 public class UserPrincipal implements UserDetails, OAuth2User {
 
-    private int id;
+    private Long id;
     private String email;
     private String password;
     private String name;
     private Collection<? extends GrantedAuthority> authorities;
     private Map<String, Object> attributes; // OAuth2 로그인 했을 때 결과
 
-    public UserPrincipal(int id, String email, String password, String name, Collection<? extends GrantedAuthority> authorities) {
+    public UserPrincipal(Long id, String email, String password, String name, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.email = email;
         this.password = password;
