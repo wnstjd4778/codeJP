@@ -8,9 +8,7 @@ spring:
     url: jdbc:mysql://localhost:3306/codejp?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
     username: root
 
-  mvc:
-    pathmatch:
-      matching-strategy: ant-path-matcher
+
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
@@ -22,7 +20,7 @@ spring:
 
 
   profiles:
-    active: local
+    include: oauth
 
 
   devtools:
@@ -34,11 +32,3 @@ spring:
     cache: false
 
 
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: 543593943506-o4olj9gnsdjvupjn50fi7fhp0hr2iad9.apps.googleusercontent.com
-            client-secret: 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
-            scope: profile, email

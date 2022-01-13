@@ -1,6 +1,7 @@
 package com.spring.codejp.Problem.domain;
 
 import com.spring.codejp.user.domain.User;
+import com.spring.codejp.util.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @Getter
 @Table(name = "problem")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Problem {
+public class Problem extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

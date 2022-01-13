@@ -11,6 +11,8 @@ public class OAuth2UserInfoFactory {
 
         if(registrationId.equalsIgnoreCase(AuthProvider.google.name())) {
             return new GoogleOAuth2UserInfo(attributes);
+        } else if(registrationId.equalsIgnoreCase(AuthProvider.naver.name())) {
+            return new NaverOAuth2UserInfo(userNameAttributeName, attributes);
         } else {
             throw new OAuth2AuthenticationException("현재 소셜로그인은 구글만 가능합니다.");
         }
