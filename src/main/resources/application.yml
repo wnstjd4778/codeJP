@@ -8,7 +8,9 @@ spring:
     url: jdbc:mysql://localhost:3306/codejp?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
     username: root
 
-
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
