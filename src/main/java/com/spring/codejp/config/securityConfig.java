@@ -68,8 +68,7 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(new JwtBasicAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilter(new JwtCommonAuthorizationFilter(authenticationManager(), jwtTokenProvider, userRepository))
                 .authorizeRequests()
-                    .antMatchers("/swagger-ui.html", "/swagger/**", "/swagger-resources/**", "/webjars/**", "/v2/api-docs").permitAll()
-                    .antMatchers("/", "/**/signUp", "/**/signIn").permitAll()
+                    .antMatchers().permitAll()
                     .anyRequest().authenticated()
                     .and()
                 .oauth2Login()// Oauth2 로그인 설정
