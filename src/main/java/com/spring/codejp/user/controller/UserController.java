@@ -43,9 +43,10 @@ public class UserController {
     }
 
     @GetMapping("/checkTel")
-    public ResponseEntity<String> checkDuplicateTel(@RequestParam String tel) throws NotFoundException {
+    public ResponseEntity<Integer> checkDuplicateTel(@RequestParam String tel) throws NotFoundException {
         userService.checkDuplicateTel(tel);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        int validNum = userService.validatePhone(tel);
+        return ResponseEntity.status(HttpStatus.OK).body(validNum);
     }
 
     @PostMapping("/signIn")
@@ -67,4 +68,5 @@ public class UserController {
 
         return ResponseEntity.status(HttpStatus.OK).body(new AuthResponseDto(accessToken));
     }
+
 }

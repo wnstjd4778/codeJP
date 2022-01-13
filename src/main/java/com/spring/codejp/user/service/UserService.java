@@ -21,6 +21,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final SMSService smsService;
 
 
     // 회원가입
@@ -65,6 +66,18 @@ public class UserService {
         if(!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
             throw new NotFoundException("로그인에 실패하였습니다.");
         }
+    }
+
+    // 본인확인 인증번호를 핸드폰으로 전송
+    public int validatePhone(String tel) {
+        int validNum;
+        do {
+            validNum = (int) (Math.random() * 100000);
+        } while (validNum < 10000);
+
+        String message = "[인증번호]\n" + validNum;
+        smsService.sendMessage(tel, message);
+        return validNum;
     }
 
 }
