@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### oauth2 ###
+!**/src/main/java/resources/application-oauth.yml
