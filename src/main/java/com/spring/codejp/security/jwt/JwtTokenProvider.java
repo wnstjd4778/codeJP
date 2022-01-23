@@ -19,7 +19,7 @@ public class JwtTokenProvider {
     private String accessTokenSecret = "토레스";
     private String refreshTokenSecret = "페르난도";
 
-    private static final long ACCESS_TOKEN_EXPIRED_MSC = 1000L * 60 * 60; // 1시간
+    private static final long ACCESS_TOKEN_EXPIRED_MSC = 1000L * 60 * 60 * 24 * 30; // 1시간
     private static final long REFRESH_TOKEN_EXPIRED_MSC = 1000L * 60 * 60 * 24 * 14; // 2주
 
     private static final String HEDAER_NAME = "Authorization";

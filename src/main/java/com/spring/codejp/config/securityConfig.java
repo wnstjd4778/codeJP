@@ -70,7 +70,7 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers("/swagger-ui.html", "/swagger/**", "/swagger-resources/**", "/webjars/**", "/v2/api-docs").permitAll()
                     .antMatchers("/", "/**/signUp", "/**/signIn", "/user/**", "/login/**").permitAll()
-                    .anyRequest().authenticated()
+                    .anyRequest().permitAll()
                     .and()
                 .oauth2Login()// Oauth2 로그인 설정
                     .userInfoEndpoint() //

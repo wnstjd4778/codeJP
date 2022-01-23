@@ -5,11 +5,13 @@ import com.spring.codejp.Problem.dto.ProblemInsertRequestDto;
 import com.spring.codejp.security.UserPrincipal;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/problem")
@@ -20,6 +22,8 @@ public class ProblemController {
     @PostMapping("")
     public ResponseEntity<String> createProblem(@RequestBody ProblemInsertRequestDto requestDto,
                                                 @AuthenticationPrincipal UserPrincipal userPrincipal) throws NotFoundException {
+        log.info("{}", requestDto);
+        log.info("{}입니다", userPrincipal);
         problemService.createProblem(requestDto, userPrincipal.getName());
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
