@@ -12,6 +12,12 @@ import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
 @Service
 @RequiredArgsConstructor
 public class TestCaseService {
@@ -21,7 +27,7 @@ public class TestCaseService {
     private final TestCaseRepository testCaseRepository;
 
     // 테스트 케이스르 추가한다.
-    public void insertTestCase(String email, TestCaseInsertRequestDto requestDto, Long problemId) throws NotFoundException {
+    public void insertTestCase(String email, TestCaseInsertRequestDto requestDto, Long problemId) throws NotFoundException, IOException {
 
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("해당 계정을 찾을 수 없습니다."));
@@ -30,7 +36,18 @@ public class TestCaseService {
                 .orElseThrow(() -> new NotFoundException("해당 문제를 찾을 수 없습니다."));
 
         if(problem.getUser().getId() == user.getId()) {
-            TestCase testCase = TestCase.createTestCase(requestDto.getExpectedData(), requestDto.getParameter(), problem);
+
+            String inputPath = "/IdeaProjects/code/codeJP/src/main/resources/input/" + problemId + ".txt";
+            String outputPath = "/IdeaProjects/code/codeJP/src/main/resources/output/" + problemId + ".txt";
+            BufferedOutputStream input = new BufferedOutputStream(new FileOutputStream(inputPath));
+            BufferedOutputStream output = new BufferedOutputStream(new FileOutputStream(outputPath));
+            try {
+                input.write(requestDto.getParameter().getBytes(StandardCharsets.UTF_8));
+                output.write(requestDto.getExpectedData().getBytes(StandardCharsets.UTF_8));
+            } catch (Exception e) {
+                e.getStackTrace();
+            }
+            TestCase testCase = TestCase.createTestCase(outputPath, inputPath, problem);
             testCaseRepository.save(testCase);
         }
     }
