@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Form, Button} from 'react-bootstrap';
 
 const InsertProblemForm = () => {
 
-    const [timeLimit, setTimeLimit] = useEffect();
-    const [memoryLimit, setMemoryLimit] = useEffect();
-    const [content, setContent] = useEffect();
-    const [title, setTitle] = useEffect();
-    const [category, setCategory] = useEffect();
+
+    const [timeLimit, setTimeLimit] = useState();
+    const [memoryLimit, setMemoryLimit] = useState();
+    const [content, setContent] = useState();
+    const [title, setTitle] = useState();
+    const [category, setCategory] = useState();
 
     const insertProblem = async () => {
         await axios.post('http://localhost:8080/problem', {
@@ -26,24 +27,51 @@ const InsertProblemForm = () => {
             })
     };
 
+    const handleTitle = (e) => {
+        setTitle(e.target.value);
+    };
+
+    const handleContent = (e) => {
+        setContent(e.target.value);
+    };
+
+    const handleTimeLimit = (e) => {
+        setTimeLimit(e.target.value);
+    };
+
+    const handleMemoryLimit = (e) => {
+        setMemoryLimit(e.target.value);
+    };
+
+    const handleCategory = (e) => {
+        setCategory(e.target.value);
+    };
+
+
+
     return <div>
         <Form>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Email address</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" />
-                <Form.Text className="text-muted">
-                    We'll never share your email with anyone else.
-                </Form.Text>
+                <Form.Label>title</Form.Label>
+                <Form.Control onChange={handleTitle} />
             </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" />
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>content</Form.Label>
+                <Form.Control onChange={handleContent} />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                <Form.Check type="checkbox" label="Check me out" />
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>timeLimit</Form.Label>
+                <Form.Control onChange={handleTimeLimit} />
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>memoryLimit</Form.Label>
+                <Form.Control onChange={handleMemoryLimit} />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>category</Form.Label>
+                <Form.Control onChange={handleCategory} />
+            </Form.Group>
+            <Button variant="primary" onClick={insertProblem}>
                 Submit
             </Button>
         </Form>
