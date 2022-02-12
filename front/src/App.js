@@ -9,6 +9,7 @@ import Header from './component/Header';
 import ProblemListPage from './page/ProblemListPage';
 import ProblemDetailPage from './page/ProblemDetailPage';
 import MyProblemPage from './page/MyProblemPage';
+import ShowTestcasePage from './page/ShowTestcasePage';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/problems" element={<ProblemListPage/>} />
         <Route path="/problems/:id" element={<ProblemDetailPage/>} />
         <Route path="/problems/me" element={<MyProblemPage/>} />
+        <Route path="/testcase/:problemId" element={<ShowTestcasePage/>} />
       </Routes>
     </div>
   );

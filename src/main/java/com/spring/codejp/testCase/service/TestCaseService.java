@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -87,4 +88,13 @@ public class TestCaseService {
         }
     }
 
+    // 테스트 케이스르 수정한다.
+    public List<TestCase> getTestCases(Long problemId) throws NotFoundException {
+
+        Problem problem = problemRepository.findById(problemId)
+                .orElseThrow(() -> new NotFoundException("해당 문제를 찾을 수 없습니다."));
+
+        List<TestCase> testCases = testCaseRepository.findAllByProblem(problem);
+        return testCases;
+    }
 }

@@ -1,6 +1,7 @@
 package com.spring.codejp.testCase.controller;
 
 import com.spring.codejp.security.UserPrincipal;
+import com.spring.codejp.testCase.domain.TestCase;
 import com.spring.codejp.testCase.dto.TestCaseInsertRequestDto;
 import com.spring.codejp.testCase.dto.TestCaseUpdateRequestDto;
 import com.spring.codejp.testCase.service.TestCaseService;
@@ -11,10 +12,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/test-case")
+@RequestMapping("/testcase")
 public class TestCaseController {
 
     private final TestCaseService testCaseService;
@@ -42,5 +44,11 @@ public class TestCaseController {
                                                  @PathVariable Long testCaseId) throws NotFoundException {
         testCaseService.deleteTestCase(userPrincipal.getName(), problemId, testCaseId);
         return ResponseEntity.status(200).build();
+    }
+
+    @GetMapping("/{problemId}")
+    public ResponseEntity<List<TestCase>> getTestCases(@PathVariable Long problemId) throws NotFoundException, IOException {
+        List<TestCase> testCases = testCaseService.getTestCases(problemId);
+        return ResponseEntity.status(200).body(testCases);
     }
 }

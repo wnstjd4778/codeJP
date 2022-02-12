@@ -41,7 +41,6 @@ function ProblemListPage() {
         })}
       </tbody>
     </Table>
-    <Link to='/problems/insert'><Button >insert problem</Button></Link>
   </div>;
 }
 

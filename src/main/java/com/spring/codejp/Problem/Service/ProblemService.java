@@ -74,7 +74,6 @@ public class ProblemService {
     public List<Problem> getMyProblems(String email) throws NotFoundException {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("유저를 찾을 수 없습니다."));
-
         List<Problem> problems = problemRepository.findAllByUser(user);
         return problems;
     }

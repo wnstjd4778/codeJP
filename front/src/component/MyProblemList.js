@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 import { Button, Table } from 'react-bootstrap';
 import ProblemTableBody from './ProblemTableBody';
+import MyProblemTableBody from './MyProblemTableBody';
 
 const MyProblemList = () => {
     const [problems, setProblems] = useState();
@@ -33,12 +34,12 @@ const MyProblemList = () => {
           <th>index</th>
           <th>title</th>
           <th>categorys</th>
-          <th>link</th>
+          <th>testCase</th>
         </tr>
       </thead>
       <tbody>
         {problems === undefined ? "sadas" : problems.map((problem, index) => {
-          return (<ProblemTableBody key={index} problem={problem} />
+          return (<MyProblemTableBody key={index} problem={problem} />
           )
         })}
       </tbody>
