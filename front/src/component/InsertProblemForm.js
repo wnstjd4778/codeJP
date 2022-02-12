@@ -18,12 +18,18 @@ const InsertProblemForm = () => {
             category,
             content,
             title
+        }, {
+            headers: {
+                'Authorization' : localStorage.getItem("Authorization")
+            }
         })
             .then(res => {
                 console.log(res);
+                console.log(localStorage.getItem("Authorization"));
             })
             .catch(err => {
                 console.log(err);
+                console.log(localStorage.getItem("Authorization"));
             })
     };
 

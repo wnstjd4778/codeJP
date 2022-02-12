@@ -22,7 +22,8 @@ function LoginForm() {
         })
             .then(res => {
                 console.log(res.data.accessToken);
-                axios.defaults.headers.common['Authorization'] = res.data.tokenType + " " + res.data.accessToken;
+                localStorage.setItem('Authorization', res.data.tokenType + " " + res.data.accessToken);
+                axios.defaults.headers['Authorization'] = res.data.tokenType + " " + res.data.accessToken;
             })
             .catch(err => {
                 console.log(err);

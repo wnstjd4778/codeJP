@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ProblemTableBody from '../component/ProblemTableBody';
 
@@ -32,9 +32,9 @@ function ProblemListPage() {
         </tr>
       </thead>
       <tbody>
-      {problems.map((problem, index) => {
+      {/* {problems.map((problem, index) => {
         <ProblemTableBody key= {index} problem = {problem}/>       
-      })}
+      })} */}
       </tbody>
     </Table>
     <Link to='/problems/insert'><Button >insert problem</Button></Link>
