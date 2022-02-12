@@ -8,6 +8,7 @@ import MainPage from './page/MainPage';
 import Header from './component/Header';
 import ProblemListPage from './page/ProblemListPage';
 import ProblemDetailPage from './page/ProblemDetailPage';
+import MyProblemPage from './page/MyProblemPage';
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path='/problems/insert' element={<InsertProblemPage />} />
         <Route path="/problems" element={<ProblemListPage/>} />
         <Route path="/problems/:id" element={<ProblemDetailPage/>} />
+        <Route path="/problems/me" element={<MyProblemPage/>} />
       </Routes>
     </div>
   );

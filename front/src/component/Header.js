@@ -10,6 +10,7 @@ function Header() {
                     <Nav.Link href="/">Home</Nav.Link>
                     {localStorage.getItem("Authorization") === undefined ? <Nav.Link href='/users/login'>Login</Nav.Link> : <Nav.Link href='/users/myPage'>MyPage</Nav.Link>}
                     <Nav.Link href="/problems">Problem</Nav.Link>
+                    <Nav.Link href="/problems/me">MyProblem</Nav.Link>
                 </Nav>
             </Container>
         </Navbar>

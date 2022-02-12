@@ -13,6 +13,7 @@ const InsertProblemForm = () => {
     const [content, setContent] = useState();
     const [title, setTitle] = useState();
     const [category, setCategory] = useState();
+    const [testCases, setTestCases] = useState();
 
     const insertProblem = async () => {
         await axios.post('http://localhost:8080/problem', {

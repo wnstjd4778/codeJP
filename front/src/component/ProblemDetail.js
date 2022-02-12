@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 const ProblemDetail = (props) => {
 
@@ -30,8 +31,8 @@ const ProblemDetail = (props) => {
        <h1>{problem.timeLimit}</h1><br/>
        <h1>{problem.memoryLimit}</h1><br/>
        <h1>{problem.category}</h1><br/>
+       <Button>제출하기</Button>
        </div>}
-       
     </div>;
 }
 

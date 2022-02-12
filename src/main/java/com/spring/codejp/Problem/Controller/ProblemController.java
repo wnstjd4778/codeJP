@@ -57,4 +57,10 @@ public class ProblemController {
         Problem problems = problemService.getProblem(problemId);
         return ResponseEntity.status(HttpStatus.OK).body(problems);
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<List<Problem>> getProblem(@AuthenticationPrincipal UserPrincipal userPrincipal) throws NotFoundException {
+        List<Problem> problems = problemService.getMyProblems(userPrincipal.getUsername());
+        return ResponseEntity.status(HttpStatus.OK).body(problems);
+    }
 }
