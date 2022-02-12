@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Form, Button} from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 const InsertProblemForm = () => {
 
+
+    const navigate = useNavigate();
 
     const [timeLimit, setTimeLimit] = useState();
     const [memoryLimit, setMemoryLimit] = useState();
@@ -20,12 +23,13 @@ const InsertProblemForm = () => {
             title
         }, {
             headers: {
-                'Authorization' : localStorage.getItem("Authorization")
+                'Authorization': localStorage.getItem("Authorization")
             }
         })
             .then(res => {
                 console.log(res);
                 console.log(localStorage.getItem("Authorization"));
+                navigate('/problems');
             })
             .catch(err => {
                 console.log(err);
@@ -73,15 +77,16 @@ const InsertProblemForm = () => {
                 <Form.Label>memoryLimit</Form.Label>
                 <Form.Control onChange={handleMemoryLimit} />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>category</Form.Label>
-                <Form.Control onChange={handleCategory} />
-            </Form.Group>
+            <Form.Select aria-label="Default select example" onChange={handleCategory}>
+                <option>Category</option>
+                <option value="MATH">MATH</option>
+                <option value="DYNAMIC_PROGRAMMING">DYNAMIC_PROGRAMMING</option>
+            </Form.Select>
             <Button variant="primary" onClick={insertProblem}>
                 Submit
             </Button>
         </Form>
-    </div>;
+    </div>
 }
 
 export default InsertProblemForm;

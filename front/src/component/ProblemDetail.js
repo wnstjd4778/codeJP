@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const ProblemDetail = () => {
+const ProblemDetail = (props) => {
 
 
-    const {id} = this.props.match;
+    console.log(props);
     
     const [problem, setProblem] = useState();
 
     const getProblem = async () => {
-        await axios.get('http://localhost:8080/problem' + id)
+        await axios.get('http://localhost:8080/problem')
             .then(res => {
                 console.log(res);
                 setProblem(res.data);

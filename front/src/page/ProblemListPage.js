@@ -1,20 +1,22 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Button, Table } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ProblemTableBody from '../component/ProblemTableBody';
 
 function ProblemListPage() {
 
   const [problems, setProblems] = useState();
-
+  const navigate = useNavigate();
   const ProblemList = async () => {
-    await axios.get("") // update url
+    await axios.get("http://localhost:8080/problem")
       .then(res => {
-        setProblems(...res.data);
+        console.log(res.data);
+        setProblems(res.data.slice());
+        console.log(problems);
       })
-      .then(err => {
-        alert(err);
+      .catch(err => {
+        alert(err + "에러ㅗ가 났습니다.");
       })
   }
 
@@ -29,12 +31,14 @@ function ProblemListPage() {
           <th>index</th>
           <th>title</th>
           <th>categorys</th>
+          <th>link</th>
         </tr>
       </thead>
       <tbody>
-      {/* {problems.map((problem, index) => {
-        <ProblemTableBody key= {index} problem = {problem}/>       
-      })} */}
+        {problems === undefined ? "sadas" : problems.map((problem, index) => {
+          return (<ProblemTableBody key={index} problem={problem} />
+          )
+        })}
       </tbody>
     </Table>
     <Link to='/problems/insert'><Button >insert problem</Button></Link>
