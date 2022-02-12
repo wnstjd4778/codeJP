@@ -1,5 +1,6 @@
 package com.spring.codejp.Problem.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.spring.codejp.user.domain.User;
 import com.spring.codejp.util.BaseTimeEntity;
 import lombok.AccessLevel;
@@ -37,6 +38,7 @@ public class Problem extends BaseTimeEntity {
     private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
 

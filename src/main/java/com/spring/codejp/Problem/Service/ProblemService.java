@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ProblemService {
@@ -55,5 +57,10 @@ public class ProblemService {
         problemRepository.delete(problem);
     }
 
+    // 문제들을 가져온다
+    public List<Problem> getProblems() {
+        List<Problem> problems = problemRepository.findAll();
+        return problems;
+    }
 
 }
