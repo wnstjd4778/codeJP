@@ -51,4 +51,10 @@ public class ProblemController {
         List<Problem> problems = problemService.getProblems();
         return ResponseEntity.status(HttpStatus.OK).body(problems);
     }
+
+    @GetMapping("/{problemId}")
+    public ResponseEntity<Problem> getProblem(@PathVariable Long problemId) throws NotFoundException {
+        Problem problems = problemService.getProblem(problemId);
+        return ResponseEntity.status(HttpStatus.OK).body(problems);
+    }
 }

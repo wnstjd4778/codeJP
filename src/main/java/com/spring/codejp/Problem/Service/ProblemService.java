@@ -63,4 +63,11 @@ public class ProblemService {
         return problems;
     }
 
+    // 해당 id의 문제들을 가져온다
+    public Problem getProblem(Long problemId) throws NotFoundException {
+        Problem problem = problemRepository.findById(problemId)
+                .orElseThrow(() -> new NotFoundException("해당 문제를 찾을 수 없습니다."));
+        return problem;
+    }
+
 }
