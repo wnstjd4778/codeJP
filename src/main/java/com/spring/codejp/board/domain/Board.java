@@ -43,10 +43,29 @@ public class Board {
     private User user;
 
     @Builder
-    public Board(String title, String content) {
+    public Board(String title, String content, Problem problem, User user, int hits) {
         this.title = title;
         this.content = content;
+        this.problem = problem;
+        this.user = user;
+        this.hits = hits;
     }
 
+    public static Board createBoard(String title, String content, Problem problem, User user) {
+
+        return Board.builder()
+                .title(title)
+                .content(content)
+                .problem(problem)
+                .user(user)
+                .hits(0)
+                .build();
+    }
+
+    public Board updateBoard(String title, String content) {
+        this.content = content;
+        this.title = title;
+        return this;
+    }
 
 }
