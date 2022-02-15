@@ -31,7 +31,7 @@ function MainPage() {
   <Carousel.Item>
     <img
       className="d-block w-100"
-      src="https://source.unsplash.com/user/erondu/"
+      src="https://source.unsplash.com/user/erondu/400x200"
       alt="Third slide"
     />
 
@@ -41,8 +41,6 @@ function MainPage() {
     </Carousel.Caption>
   </Carousel.Item>
 </Carousel>
-
-    <Link to='/problems'><Button>problem</Button></Link>
   </div>;
 }
 
