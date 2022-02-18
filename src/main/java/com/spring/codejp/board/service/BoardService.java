@@ -11,6 +11,8 @@ import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class BoardService {
@@ -65,5 +67,26 @@ public class BoardService {
             throw new NotFoundException("권한이 없습니다.");
         }
         boardRepository.delete(board);
+    }
+
+    //board들을 가져온다.
+    public List<Board> getBoards(Long problemId) throws NotFoundException {
+
+        Problem problem = problemRepository.findById(problemId)
+                .orElseThrow(() -> new NotFoundException("해당 문제를 찾을 수 없습니다."));
+
+        List<Board> boards = boardRepository.findAllByProblem(problem);
+        return boards;
+    }
+
+    //board를 가져온다.
+    public Board getBoard(Long problemId, Long boardId) throws NotFoundException {
+
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new NotFoundException("게시판을 찾을 수 없습니다."));
+
+        board.increaseHits();
+        boardRepository.save(board);
+        return board;
     }
 }

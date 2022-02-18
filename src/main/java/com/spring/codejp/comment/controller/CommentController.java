@@ -1,5 +1,6 @@
 package com.spring.codejp.comment.controller;
 
+import com.spring.codejp.comment.domain.Comment;
 import com.spring.codejp.comment.dto.CommentSaveRequestDto;
 import com.spring.codejp.comment.repository.CommentRepository;
 import com.spring.codejp.comment.service.CommentService;
@@ -10,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -51,4 +54,11 @@ public class CommentController {
         commentService.deleteComment(userPrincipal.getUsername(), boardId, commentId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @GetMapping("")
+    public ResponseEntity<List<Comment>> getComments(@PathVariable Long boardId) throws NotFoundException {
+        List<Comment> comments = commentService.getComments(boardId);
+        return ResponseEntity.status(HttpStatus.OK).body(comments);
+    }
+
 }

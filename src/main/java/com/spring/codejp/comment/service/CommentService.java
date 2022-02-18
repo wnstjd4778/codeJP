@@ -86,4 +86,15 @@ public class CommentService {
         List<Comment> removableCommentList = comment.findRemovableList();
         commentRepository.deleteAll(removableCommentList);
     }
+
+    // 게시판의 댓글을 가져온다
+    public List<Comment> getComments(Long boardId) throws NotFoundException {
+
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new NotFoundException("해당 게시글을 찾을 수 없습니다."));
+
+        List<Comment> comments = commentRepository.findAllByBoard(board);
+
+        return comments;
+    }
 }

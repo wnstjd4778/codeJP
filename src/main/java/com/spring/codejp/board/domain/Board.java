@@ -1,5 +1,6 @@
 package com.spring.codejp.board.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.spring.codejp.Problem.domain.Problem;
 import com.spring.codejp.comment.domain.Comment;
 import com.spring.codejp.user.domain.User;
@@ -35,10 +36,12 @@ public class Board {
     private int hits; // 조회수
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "problem_id")
     private Problem problem;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -65,6 +68,11 @@ public class Board {
     public Board updateBoard(String title, String content) {
         this.content = content;
         this.title = title;
+        return this;
+    }
+
+    public Board increaseHits() {
+        this.hits +=1;
         return this;
     }
 
