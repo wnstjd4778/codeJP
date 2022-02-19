@@ -6,6 +6,8 @@ import com.spring.codejp.compile.dto.CompileResponseDto;
 import com.spring.codejp.submit.dto.SubmitRequestDto;
 import com.spring.codejp.testCase.domain.TestCase;
 import com.spring.codejp.testCase.repository.TestCaseRepository;
+import com.spring.codejp.user.domain.User;
+import com.spring.codejp.user.repository.UserRepository;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.apache.http.client.methods.HttpHead;
@@ -28,14 +30,17 @@ import java.util.List;
 public class SubmitService {
 
     private final TestCaseRepository testCaseRepository;
-
+    private final UserRepository userRepository;
     private final ProblemRepository problemRepository;
 
     // 문제를 제출한다.
-    public void submitCode(SubmitRequestDto requestDto, Long problemId) throws NotFoundException {
+    public void submitCode(SubmitRequestDto requestDto, Long problemId, String email) throws NotFoundException {
 
         Problem problem = problemRepository.findById(problemId)
                 .orElseThrow(() -> new NotFoundException("문제를 찾을 수 없습니다."));
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("해당 유저를 찾을 수 없습니다."));
 
         List<TestCase> testCases = testCaseRepository.findAllByProblem(problem);
         RestTemplate restTemplate = new RestTemplate();

@@ -2,6 +2,7 @@ package com.spring.codejp.submit.domain;
 
 import com.spring.codejp.Problem.domain.Problem;
 import com.spring.codejp.user.domain.User;
+import com.spring.codejp.util.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import java.util.Date;
 @Table(name = "submit")
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Submit {
+public class Submit extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,13 +23,16 @@ public class Submit {
     private Long id;
 
     @Column(name = "submit_sourceCode")
-    private String sourceCode;
+    private String code;
 
     @Column(name = "submit_status")
     private String status;
 
-    @Column(name = "submit_date")
-    private Date date;
+    @Column(name = "submit_is_answer")
+    private boolean isAnswer;
+
+    @Column(name = "submit_language")
+    private Language language;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -39,21 +43,23 @@ public class Submit {
     private Problem problem;
 
     @Builder
-    public Submit(String sourceCode, String status, Date date, User user, Problem problem) {
-        this.sourceCode = sourceCode;
+    public Submit(String code, String status, boolean isAnswer, User user, Problem problem, Language language) {
+        this.code = code;
         this.status = status;
-        this.date = date;
+        this.isAnswer = isAnswer;
         this.user = user;
         this.problem = problem;
+        this.language = language;
     }
 
-    public static Submit createSubmit(String sourceCode, String status, Date date, User user, Problem problem) {
+    public static Submit createSubmit(String code, String status, boolean isAnswer, Language language, User user, Problem problem) {
         return Submit.builder()
-                .sourceCode(sourceCode)
+                .code(code)
                 .status(status)
-                .date(date)
+                .isAnswer(isAnswer)
                 .user(user)
                 .problem(problem)
+                .language(language)
                 .build();
     }
 }

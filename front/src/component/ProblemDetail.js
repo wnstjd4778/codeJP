@@ -8,16 +8,37 @@ const ProblemDetail = (props) => {
 
     const { problemId } = useParams();
     const [problem, setProblem] = useState();
+    const [language, setLanguage] = useState();
+    const [code, setCode] = useState();
+
     const getProblem = async () => {
         await axios.get('http://localhost:8080/problem/' + problemId)
             .then(res => {
-                console.log(res);
                 setProblem(res.data);
             })
             .catch(err => {
                 console.log(err);
             })
     };
+
+    const handleCode = (e) => {
+        setCode(e.target.value);
+    }
+
+    const handleLanguange = (e) => {
+        setLanguage(e.target.value);
+    }
+
+    const submitCode = async() => {
+        await axios.post("http://localhost:8080/problems/" + problem.id + "/submits", {
+            language,
+            code
+        }, {
+            headers: {
+                "Authorization": localStorage.getItem("Authorization")
+            }
+        });
+    }
 
     useEffect(() => {
         getProblem();
@@ -103,14 +124,13 @@ const ProblemDetail = (props) => {
                     <div className='page-header'>
                         <h1>입력창</h1>
                     </div>
-                    <Form.Select aria-label="Default select example">
-                        <option>Language</option>
-                        <option value="1">Java</option>
-                        <option value="2">C++</option>
-                        <option value="3">Python</option>
+                    <Form.Select onChange={handleLanguange} aria-label="Default select example">
+                        <option value="JAVA">JAVA</option>
+                        <option value="C++">C++</option>
+                        <option value="PYTHON">PYTHON</option>
                     </Form.Select>
                     <FloatingLabel controlId="floatingTextarea2" label="Comments">
-                        <Form.Control
+                        <Form.Control onChange={handleCode}
                             as="textarea"
                             placeholder="Leave a comment here"
                             style={{
@@ -120,13 +140,9 @@ const ProblemDetail = (props) => {
                         />
                     </FloatingLabel>
                     <Col md={{ offset: 5, span: 4 }}>
-                        <Button style={{ width: '50%' }}>제출</Button>
+                        <Button onClick={submitCode} style={{ width: '50%' }}>제출</Button>
                     </Col>
-
-
                 </Col>
-
-
             </Row>
         </div>}
     </div>;
