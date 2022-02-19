@@ -12,6 +12,7 @@ import MyProblemPage from './page/MyProblemPage';
 import ShowTestcasePage from './page/ShowTestcasePage';
 import ProblemBoardPage from './page/ProblemBoardPage';
 import BoardDetailPage from './page/BoardDetailPage';
+import MyInfoPage from './page/MyInfoPage';
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Route path="/testcase/:problemId" element={<ShowTestcasePage/>} />
         <Route path="/problems/:problemId/boards" element={<ProblemBoardPage/>} />
         <Route path="/problems/:problemId/boards/:boardId" element={<BoardDetailPage/>} />
+        <Route path="/users/myPage" element={<MyInfoPage/>} />
       </Routes>
     </div>
   );

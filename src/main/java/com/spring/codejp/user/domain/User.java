@@ -41,9 +41,15 @@ public class User extends BaseTimeEntity {
     @Column(name = "user_sns_key", length = 45, unique = true)
     private String snsKey; // 사용자 SNS 고유 key
 
+    @Column(name = "user_answer_count")
+    private int answerCount; // 맞힌 문제 개수
+
+    @Column(name = "user_submit_count")
+    private int submitCount; // 제출한 문제 개수
+
 
     @Builder
-    public User(String email, String password, boolean tempPassword, String tel, String name, AuthProvider snsType, String snsKey) {
+    public User(String email, String password, boolean tempPassword, String tel, String name, AuthProvider snsType, String snsKey, int answerCount, int submitCount) {
         this.email = email;
         this.password = password;
         this.tempPassword = tempPassword;
@@ -51,6 +57,8 @@ public class User extends BaseTimeEntity {
         this.name = name;
         this.snsType = snsType;
         this.snsKey = snsKey;
+        this.answerCount = answerCount;
+        this.submitCount = submitCount;
     }
 
     // 비밀번호 변경

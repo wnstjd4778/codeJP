@@ -33,6 +33,8 @@ public class UserService {
                 .name(requestDto.getName())
                 .password(passwordEncoder.encode(requestDto.getPassword()))
                 .snsType(AuthProvider.local)
+                .answerCount(0)
+                .submitCount(0)
                 .build();
         userRepository.save(user);
     }
@@ -78,6 +80,15 @@ public class UserService {
         String message = "[인증번호]\n" + validNum;
         smsService.sendMessage(tel, message);
         return validNum;
+    }
+
+    // 내 회원 정보를 가져온다
+    public User getMyInfo(String email) throws NotFoundException {
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("유저를 찾을 수 없습니다."));
+
+        return user;
     }
 
 }
