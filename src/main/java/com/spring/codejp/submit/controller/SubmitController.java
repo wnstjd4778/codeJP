@@ -24,7 +24,7 @@ public class SubmitController {
     public ResponseEntity<String> submitCode(@RequestBody SubmitRequestDto requestDto,
                                              @PathVariable Long problemId,
                                              @AuthenticationPrincipal UserPrincipal userPrincipal) throws NotFoundException {
-        log.info(requestDto.getCode() + requestDto.getLanguage());
+        log.info(requestDto.getCode() + "       " + requestDto.getLanguage());
         submitService.submitCode(requestDto, problemId, userPrincipal.getUsername());
 
         return ResponseEntity.status(HttpStatus.CREATED).build();

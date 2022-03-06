@@ -46,17 +46,7 @@ const ProblemDetail = (props) => {
     return <div>
         {problem === undefined ? "asdsa" : <div>
             <br />
-            <Nav justify variant="tabs" defaultActiveKey="/home">
-                <Nav.Item>
-                    <Nav.Link href="">{problem.id + "번"}</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link href={"/problems/" + problem.id + "/boards"}>게시판</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link href="">채점 현황</Nav.Link>
-                </Nav.Item>
-            </Nav>
+            
             <Row>
                 <Col md={6}>
                     <div className='page-header'>

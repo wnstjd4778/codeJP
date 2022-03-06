@@ -21,6 +21,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -43,25 +45,26 @@ public class SubmitService {
                 .orElseThrow(() -> new NotFoundException("해당 유저를 찾을 수 없습니다."));
 
         List<TestCase> testCases = testCaseRepository.findAllByProblem(problem);
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        List<CompileResponseDto> compileResponses = new LinkedList<>();
-        String serverUrl = "http://localhost:8081/compile/";
-        for(int i = 0; i < testCases.size(); i++) {
-            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-            File input = new File(testCases.get(i).getParameter());
-            File output = new File(testCases.get(i).getExpectedData());
-            body.add("input", new FileSystemResource(input));
-            body.add("output", new FileSystemResource(output));
-            // body.add("sourceCode", new FileSystemResource()); 소스 코드를 파일로 만들어야됨
-            body.add("language", requestDto.getLanguage());
-            HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-            CompileResponseDto compileResponseDto
-                    = restTemplate.postForObject( serverUrl + requestDto.getLanguage(), requestEntity, CompileResponseDto.class);
-            compileResponses.add(compileResponseDto);
-            // 데이터 가공해서 내보내기(제대로 되는지 확인!!!)
-        }
+
+//        RestTemplate restTemplate = new RestTemplate();
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+//        List<CompileResponseDto> compileResponses = new LinkedList<>();
+//        String serverUrl = "http://localhost:8081/compile/";
+//        for(int i = 0; i < testCases.size(); i++) {
+//            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+//            File input = new File(testCases.get(i).getParameter());
+//            File output = new File(testCases.get(i).getExpectedData());
+//            body.add("input", new FileSystemResource(input));
+//            body.add("output", new FileSystemResource(output));
+//            // body.add("sourceCode", new FileSystemResource()); 소스 코드를 파일로 만들어야됨
+//            body.add("language", requestDto.getLanguage());
+//            HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+//            CompileResponseDto compileResponseDto
+//                    = restTemplate.postForObject( serverUrl + requestDto.getLanguage(), requestEntity, CompileResponseDto.class);
+//            compileResponses.add(compileResponseDto);
+//            // 데이터 가공해서 내보내기(제대로 되는지 확인!!!)
+//        }
 
         
     }

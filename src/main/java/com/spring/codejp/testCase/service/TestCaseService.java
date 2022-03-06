@@ -10,6 +10,7 @@ import com.spring.codejp.user.domain.User;
 import com.spring.codejp.user.repository.UserRepository;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedOutputStream;
@@ -18,7 +19,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TestCaseService {
@@ -30,6 +33,7 @@ public class TestCaseService {
     // 테스트 케이스르 추가한다.
     public void insertTestCase(String email, TestCaseInsertRequestDto requestDto, Long problemId) throws NotFoundException, IOException {
 
+        log.info(requestDto.getExpectedData() + "   " + requestDto.getParameter());
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("해당 계정을 찾을 수 없습니다."));
 
@@ -37,17 +41,41 @@ public class TestCaseService {
                 .orElseThrow(() -> new NotFoundException("해당 문제를 찾을 수 없습니다."));
 
         if(problem.getUser().getId() == user.getId()) {
+            UUID random = UUID.randomUUID();
+            String inputPath = "C:\\Problems\\" + problemId +  "\\input";
+            String outputPath = "C:\\Problems\\" + problemId +  "\\output";
+            File inputFolder = new File(inputPath);
+            File outputFolder = new File(inputPath);
 
-            String inputPath = "/IdeaProjects/code/codeJP/src/main/resources/input/" + problemId + ".txt";
-            String outputPath = "/IdeaProjects/code/codeJP/src/main/resources/output/" + problemId + ".txt";
-            BufferedOutputStream input = new BufferedOutputStream(new FileOutputStream(inputPath));
-            BufferedOutputStream output = new BufferedOutputStream(new FileOutputStream(outputPath));
+            // 폴더를 자동으로 생성해야하는데 생성이 안됨
+//            if (!inputFolder.exists()) {
+//                try{
+//                    inputFolder.mkdir(); //폴더 생성합니다.
+//                    System.out.println("폴더가 생성되었습니다.");
+//                }
+//                catch(Exception e){
+//                    e.getStackTrace();
+//                }
+//            }
+//            if (!outputFolder.exists()) {
+//                try{
+//                    outputFolder.mkdir(); //폴더 생성합니다.
+//                    System.out.println("폴더가 생성되었습니다.");
+//                }
+//                catch(Exception e){
+//                    e.getStackTrace();
+//                }
+//            }
+            FileOutputStream input = new FileOutputStream(inputPath + "\\" + random + ".txt");
+            FileOutputStream output = new FileOutputStream(outputPath + "\\" + random + ".txt");
             try {
                 input.write(requestDto.getParameter().getBytes(StandardCharsets.UTF_8));
                 output.write(requestDto.getExpectedData().getBytes(StandardCharsets.UTF_8));
             } catch (Exception e) {
                 e.getStackTrace();
             }
+            input.close();
+            output.close();
             TestCase testCase = TestCase.createTestCase(outputPath, inputPath, problem);
             testCaseRepository.save(testCase);
         }

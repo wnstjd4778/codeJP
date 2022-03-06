@@ -7,6 +7,7 @@ import com.spring.codejp.testCase.dto.TestCaseUpdateRequestDto;
 import com.spring.codejp.testCase.service.TestCaseService;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/testcase")
@@ -25,6 +27,7 @@ public class TestCaseController {
     public ResponseEntity<String> insertTestCase(@AuthenticationPrincipal UserPrincipal userPrincipal,
                                                  @RequestBody TestCaseInsertRequestDto testCaseInsertRequestDto,
                                                  @PathVariable Long problemId) throws NotFoundException, IOException {
+
         testCaseService.insertTestCase(userPrincipal.getName(), testCaseInsertRequestDto, problemId);
         return ResponseEntity.status(200).build();
     }

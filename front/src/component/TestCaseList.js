@@ -1,14 +1,41 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Col, Table } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
-import TestcaseTableBody from './TestcaseTableBody';
+import { Button, Col, Form, Table } from 'react-bootstrap';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 const TestCaseList = () => {
 
     const [testcases, setTestcases] = useState();
     const { problemId } = useParams();
+    const [input, setInput] = useState();
+    const [output, setOutput] = useState();
+    const [flag, setFlag] = useState(false);
+    const navigate = useNavigate();
 
+    const handleInput = (e) => {
+        setInput(e.target.value);
+    }
+
+    const handleOutput = (e) => {
+        setOutput(e.target.value);
+    }
+
+    const insertTestcase = async () => {
+        await axios.post("http://localhost:8080/testcase/" + problemId, {
+            parameter: input,
+            expectedData: output
+        }, {
+            headers: {
+                'Authorization': localStorage.getItem('Authorization')
+            }
+        })
+            .then((res) => {
+
+            })
+            .catch((err) => {
+                alert(err);
+            })
+    }
     const getTestcases = async () => {
         axios.get("http://localhost:8080/testcase/" + problemId)
             .then(res => {
@@ -17,6 +44,10 @@ const TestCaseList = () => {
             .catch(err => {
                 alert(err);
             })
+    }
+
+    const handleFlag = () => {
+        setFlag(true);
     }
 
     useEffect(() => {
@@ -46,6 +77,22 @@ const TestCaseList = () => {
                     </tbody>
                 </Table>
             </Col>
+            {flag === false ? <Button onClick={handleFlag}>테스트 케이스 추가하기</Button> :
+                <div>
+                    <Form>
+                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                            <Form.Label>input</Form.Label>
+                            <Form.Control onChange={handleInput} />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                            <Form.Label>output</Form.Label>
+                            <Form.Control onChange={handleOutput} />
+                        </Form.Group>
+                        <Button variant="primary" onClick={insertTestcase}>
+                            Submit
+                        </Button>
+                    </Form>
+                </div>}
         </div>
     );
 };

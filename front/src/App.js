@@ -13,6 +13,7 @@ import ShowTestcasePage from './page/ShowTestcasePage';
 import ProblemBoardPage from './page/ProblemBoardPage';
 import BoardDetailPage from './page/BoardDetailPage';
 import MyInfoPage from './page/MyInfoPage';
+import SubmitResultPage from './page/SubmitResultPage';
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <Route path="/problems/:problemId/boards" element={<ProblemBoardPage/>} />
         <Route path="/problems/:problemId/boards/:boardId" element={<BoardDetailPage/>} />
         <Route path="/users/myPage" element={<MyInfoPage/>} />
+        <Route path="/problems/:problemId/submits/me" element={<SubmitResultPage/>} />
       </Routes>
     </div>
   );
