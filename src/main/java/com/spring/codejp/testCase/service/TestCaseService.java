@@ -76,7 +76,7 @@ public class TestCaseService {
             }
             input.close();
             output.close();
-            TestCase testCase = TestCase.createTestCase(outputPath, inputPath, problem);
+            TestCase testCase = TestCase.createTestCase(outputPath + "\\" + random + ".txt", inputPath + "\\" + random + ".txt", problem);
             testCaseRepository.save(testCase);
         }
     }

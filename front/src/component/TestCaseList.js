@@ -47,12 +47,17 @@ const TestCaseList = () => {
     }
 
     const handleFlag = () => {
-        setFlag(true);
+        setFlag(!flag);
+    }
+
+    const insertTestcaseOnClickEvent = () => {
+        insertTestcase();
+        handleFlag();
     }
 
     useEffect(() => {
         getTestcases()
-    }, [])
+    }, [insertTestcaseOnClickEvent])
 
     return (
         <div>
@@ -88,7 +93,7 @@ const TestCaseList = () => {
                             <Form.Label>output</Form.Label>
                             <Form.Control onChange={handleOutput} />
                         </Form.Group>
-                        <Button variant="primary" onClick={insertTestcase}>
+                        <Button variant="primary" onClick={insertTestcaseOnClickEvent}>
                             Submit
                         </Button>
                     </Form>
